@@ -41,3 +41,46 @@ if __name__ == "__main__":
     print(get_patient_by_id(existing_id))
     print(get_patient_by_id("nonexistent-id"))
 
+def get_patient_conditions(patient_id):
+    conditions = []
+    file_path = Path(__file__).resolve().parent / "data" / "conditions.csv"
+    with open(file_path, mode = "r", newline="", encoding="utf-8-sig") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row["PATIENT"] == patient_id:
+                conditions.append({
+                    "code": row["CODE"],
+                    "description": row["DESCRIPTION"],
+                    "start_date": row["START"],
+                    "end_date": row["STOP"]
+                })
+        return conditions
+
+
+if __name__ == "__main__":
+    patients = get_all_patients()
+    patient_id = patients[0]["patient_id"]
+
+    conditions = get_patient_conditions(patient_id)
+
+    print("Patient ID:", patient_id)
+    print("Conditions found:", len(conditions))
+    print("First condition:", conditions[0] if conditions else "None")
+
+    print("Unknown patient:", get_patient_conditions("unknown-id"))
+
+def get_patient_careplans(patient_id):
+    careplans = []
+    file_path = Path(__file__).resolve().parent / "data" / "careplans.csv"
+    with open(file_path, mode = "r", newline="", encoding="utf-8-sig") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row["PATIENT"] == patient_id:
+                careplans.append({
+                    "id": row["Id"],
+                    "description": row["DESCRIPTION"],
+                    "start_date": row["START"],
+                    "end_date": row["STOP"],
+                    "reason_description": row["REASONDESCRIPTION"]
+            })
+        return careplans

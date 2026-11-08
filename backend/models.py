@@ -29,3 +29,16 @@ class PatientBasic(BaseModel):
     gender: str
     city: str
     state: str
+
+class PatientCondition(BaseModel):
+    code: str
+    description: str
+    start_date: str
+    end_date: str
+
+class PatientCareplans(BaseModel):
+    id: str
+    description: str
+    start_date: str
+    end_date: str
+    reason_description: str
